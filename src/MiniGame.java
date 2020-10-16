@@ -1,3 +1,5 @@
+import javafx.stage.Stage;
+
 public abstract class MiniGame{
     private final String name;
     private int highScore;
@@ -10,6 +12,8 @@ public abstract class MiniGame{
     }
 
     public abstract void playGame();
+
+    public abstract void initializeWindow(Stage primaryStage);
 
     public String getName() { return name; }
 
