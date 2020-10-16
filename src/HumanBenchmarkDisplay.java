@@ -11,10 +11,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class HumanBenchmarkDisplay extends javafx.application.Application{
+    private MiniGame[] row1Games;
+    private MiniGame[] row2Games;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Human Benchmark");
+
+        row1Games = new MiniGame[4];
+        row2Games = new MiniGame[4];
 
         Label welcomeLabel = new Label("Welcome to the Human Benchmark!");
         welcomeLabel.setFont(new Font(50));
@@ -24,10 +29,10 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         mainVBox.setAlignment(Pos.CENTER);
         HBox row1HBox = new HBox(5);
         row1HBox.setAlignment(Pos.CENTER);
-        fillMainHBox(row1HBox);
+        fillMainHBox(row1HBox, 1);
         HBox row2HBox = new HBox(5);
         row2HBox.setAlignment(Pos.CENTER);
-        fillMainHBox(row2HBox);
+        fillMainHBox(row2HBox, 2);
         mainVBox.getChildren().addAll(row1HBox, row2HBox);
 
         BorderPane border = new BorderPane();
@@ -43,11 +48,23 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         primaryStage.show();
     }
 
-    private void fillMainHBox(HBox hBox){
+    private void fillMainHBox(HBox hBox, int row){
         AnchorPane anchor;
         Canvas currCanvas;
         GraphicsContext gc;
         Button currButton;
+        if(row == 1){
+            row1Games[0] = new ReactionTimeGame();
+            row1Games[1] = new AimTrainerGame();
+            row1Games[2] = new ChimpTestGame();
+            row1Games[3] = new VisualMemoryGame();
+        }
+        else{
+            row2Games[0] = new TypingGame();
+            row1Games[1] = new NumberMemoryGame();
+            row1Games[2] = new VerbalMemoryGame();
+            //row1Games[3] = new VisualMemoryGame();
+        }
         for(int i = 0; i < 4; i++){
             currCanvas = new Canvas(200, 175);
             gc = currCanvas.getGraphicsContext2D();
