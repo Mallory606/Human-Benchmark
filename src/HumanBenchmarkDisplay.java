@@ -59,7 +59,7 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         AnimationTimer a = new AnimationTimer() {
             @Override
             public void handle(long now) {
-
+                updateScores();
             }
         };
         a.start();
@@ -107,6 +107,15 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
             AnchorPane.setRightAnchor(currButton, 70.0);
             AnchorPane.setBottomAnchor(currButton, 35.0);
             hBox.getChildren().add(anchor);
+        }
+    }
+
+    private void updateScores(){
+        for(int i = 0; i < 2; i++){
+            for(int j = 0; j < 4; j++){
+                scoreLabels[i][j].setText("High Score: "
+                        + games[i][j].getHighScore());
+            }
         }
     }
 }
