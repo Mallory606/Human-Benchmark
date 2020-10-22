@@ -6,17 +6,20 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class HumanBenchmarkDisplay extends javafx.application.Application{
+    private Stage pStage;
     private MiniGame[][] games;
     private Label[][] scoreLabels;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        pStage = primaryStage;
         primaryStage.setTitle("Human Benchmark");
 
         games = new MiniGame[2][4];
@@ -71,10 +74,12 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         GraphicsContext gc;
         Label currLabel;
         Button currButton;
+        final int finalRow = row;
         double[][] leftAnchorDist = new double[][]{{25.0, 38.0, 40.0, 17.0},
                                                     {60.0, 5.0, 15.0, 35.0}};
 
         for(int i = 0; i < 4; i++){
+            final int y = i;
             currCanvas = new Canvas(200, 175);
             gc = currCanvas.getGraphicsContext2D();
             gc.setFill(Color.HONEYDEW);
@@ -88,6 +93,9 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
                     games[row][i].getHighScore());
             scoreLabels[row][i].setFont(new Font(15));
             currButton = new Button("Play");
+            currButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                games[finalRow][y].initializeWindow(pStage);
+            });
             anchor = new AnchorPane(currCanvas, currLabel,
                     scoreLabels[row][i], currButton);
             AnchorPane.setTopAnchor(currCanvas, 0.0);
