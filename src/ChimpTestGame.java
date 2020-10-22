@@ -2,6 +2,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -13,16 +14,21 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ChimpTestGame extends MiniGame{
+    private Stage chimpTestStage;
     private int[][] gameBoard;
     private Canvas[][] canvasBoard;
     private Label scoreLabel;
+    private Label strikeLabel;
     private boolean visible;
+    private boolean gameRunning;
+    private int numNumbers;
+    private int numStrikes;
 
     public ChimpTestGame(){ super("Chimp Test"); }
 
     @Override
     public void initializeWindow(Stage primaryStage){
-        Stage chimpTestStage = new Stage();
+        chimpTestStage = new Stage();
         chimpTestStage.initModality(Modality.APPLICATION_MODAL);
         chimpTestStage.initOwner(primaryStage);
         chimpTestStage.setAlwaysOnTop(true);
@@ -38,8 +44,10 @@ public class ChimpTestGame extends MiniGame{
                 canvasBoard[i][j] = new Canvas(100, 100);
                 canvasBoard[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED,
                         event -> {
-                    canvasBoard[x][y].getGraphicsContext2D()
-                            .setStroke(Color.DEEPSKYBLUE);
+                    if(gameRunning){
+                        canvasBoard[x][y].getGraphicsContext2D()
+                                .setStroke(Color.DEEPSKYBLUE);
+                    }
                 });
             }
         }
@@ -58,9 +66,12 @@ public class ChimpTestGame extends MiniGame{
         title.setFont(new Font(40));
         scoreLabel = new Label("Score: 0");
         scoreLabel.setFont(new Font(30));
+        strikeLabel = new Label("Strikes: 0");
+        strikeLabel.setFont(new Font(30));
         BorderPane labelPane = new BorderPane();
         labelPane.setCenter(title);
         labelPane.setRight(scoreLabel);
+        labelPane.setLeft(strikeLabel);
 
         BorderPane border = new BorderPane();
         border.setTop(labelPane);
@@ -74,13 +85,18 @@ public class ChimpTestGame extends MiniGame{
             @Override
             public void handle(long now) {
                 drawCanvases();
+                updateLabels();
             }
         };
         a.start();
+        playGame();
     }
 
     @Override
     public void playGame(){
+        instructionsPopUp();
+        numNumbers = 4;
+        numStrikes = 0;
 
     }
 
@@ -99,5 +115,32 @@ public class ChimpTestGame extends MiniGame{
                 }
             }
         }
+    }
+
+    private void updateLabels(){
+        scoreLabel.setText("Score: " + getCurrScore());
+        strikeLabel.setText("Strikes: " + numStrikes);
+    }
+
+    private void instructionsPopUp(){
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label("The screen will show the positions "+
+                "of the numbers, then they will disappear after a few seconds."+
+                " When this happens, press the squares with numbers in their "+
+                "numerical order. If you miss one, you will get a strike. If"+
+                "you get three strikes the game will end. Good luck!");
+        Button startButton = new Button("Start Game");
+        BorderPane border = new BorderPane();
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(chimpTestStage);
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(30));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            gameRunning = true;
+        });
+        border.setCenter(instructions);
+        border.setBottom(startButton);
     }
 }
