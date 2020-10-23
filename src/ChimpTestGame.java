@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class ChimpTestGame extends MiniGame{
-    private Stage chimpTestStage;
     private int[][] gameBoard;
     private Canvas[][] canvasBoard;
     private Label scoreLabel;
@@ -29,11 +28,11 @@ public class ChimpTestGame extends MiniGame{
 
     @Override
     public void initializeWindow(Stage primaryStage){
-        chimpTestStage = new Stage();
-        chimpTestStage.initModality(Modality.APPLICATION_MODAL);
-        chimpTestStage.initOwner(primaryStage);
-        chimpTestStage.setAlwaysOnTop(true);
-        chimpTestStage.setTitle(getName());
+        setGameStage(new Stage());
+        getGameStage().initModality(Modality.APPLICATION_MODAL);
+        getGameStage().initOwner(primaryStage);
+        getGameStage().setAlwaysOnTop(true);
+        getGameStage().setTitle(getName());
 
         gameBoard = new int[6][10];
         canvasBoard = new Canvas[6][10];
@@ -60,7 +59,10 @@ public class ChimpTestGame extends MiniGame{
                         else{
                             canvasBoard[x][y].getGraphicsContext2D()
                                     .setStroke(Color.RED);
-                            if(numStrikes == 2){ gameRunning = false; }
+                            if(numStrikes == 2){
+                                gameRunning = false;
+                                gameOverPopUp();
+                            }
                             else{ numStrikes++; }
                         }
                     }
@@ -97,8 +99,8 @@ public class ChimpTestGame extends MiniGame{
         border.setAlignment(canvasBox, Pos.CENTER);
 
         Scene scene = new Scene(border, 1045, 685);
-        chimpTestStage.setScene(scene);
-        chimpTestStage.show();
+        getGameStage().setScene(scene);
+        getGameStage().show();
 
         AnimationTimer a = new AnimationTimer() {
             @Override
@@ -109,8 +111,6 @@ public class ChimpTestGame extends MiniGame{
         };
         a.start();
 
-        numNumbers = 4;
-        numStrikes = 0;
         instructionsPopUp();
     }
 
@@ -129,11 +129,18 @@ public class ChimpTestGame extends MiniGame{
            }
         });
         int randI, randJ;
+        boolean numsPlaced = false;
         visible = true;
-        for(int i = 1; i <= numNumbers; i++){
-            randI = (int)(Math.random()*6);
-            randJ = (int)(Math.random()*10);
-            gameBoard[randI][randJ] = i;
+        while(!numsPlaced){
+            resetBoard();
+            numsPlaced = true;
+            for(int i = 1; i <= numNumbers; i++){
+                randI = (int)(Math.random()*6);
+                randJ = (int)(Math.random()*10);
+                //System.out.println("i = " + randI + "     j = " + randJ);
+                if(gameBoard[randI][randJ] != 0){ numsPlaced = false; }
+                gameBoard[randI][randJ] = i;
+            }
         }
         timer.start();
     }
@@ -170,7 +177,8 @@ public class ChimpTestGame extends MiniGame{
         }
     }
 
-    private void instructionsPopUp(){
+    @Override
+    public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label("The screen will show the positions "+
                 "of the\n numbers, then they will disappear after a\n few seconds."+
@@ -182,7 +190,7 @@ public class ChimpTestGame extends MiniGame{
         BorderPane border = new BorderPane();
         Scene scene;
         instructionsStage.initModality(Modality.APPLICATION_MODAL);
-        instructionsStage.initOwner(chimpTestStage);
+        instructionsStage.initOwner(getGameStage());
         instructionsStage.setAlwaysOnTop(true);
         instructionsStage.setTitle("Instructions");
         instructions.setFont(new Font(20));
@@ -191,6 +199,12 @@ public class ChimpTestGame extends MiniGame{
             gameRunning = true;
             playGame();
         });
+
+        numNumbers = 4;
+        numStrikes = 0;
+        setCurrScore(0);
+        resetBoard();
+
         border.setCenter(instructions);
         border.setBottom(startButton);
         border.setAlignment(instructions, Pos.CENTER);

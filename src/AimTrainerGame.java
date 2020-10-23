@@ -12,4 +12,9 @@ public class AimTrainerGame extends MiniGame{
     public void initializeWindow(Stage primaryStage) {
 
     }
+
+    @Override
+    public void instructionsPopUp() {
+
+    }
 }

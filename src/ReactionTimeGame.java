@@ -12,4 +12,9 @@ public class ReactionTimeGame extends MiniGame{
     public void initializeWindow(Stage primaryStage) {
 
     }
+
+    @Override
+    public void instructionsPopUp() {
+
+    }
 }
