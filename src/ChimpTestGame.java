@@ -1,13 +1,13 @@
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -23,6 +23,7 @@ public class ChimpTestGame extends MiniGame{
     private boolean gameRunning;
     private int numNumbers;
     private int numStrikes;
+    private int currNum;
 
     public ChimpTestGame(){ super("Chimp Test"); }
 
@@ -44,9 +45,24 @@ public class ChimpTestGame extends MiniGame{
                 canvasBoard[i][j] = new Canvas(100, 100);
                 canvasBoard[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED,
                         event -> {
-                    if(gameRunning){
-                        canvasBoard[x][y].getGraphicsContext2D()
-                                .setStroke(Color.DEEPSKYBLUE);
+                    if(gameRunning && !visible){
+                        if(gameBoard[x][y] == currNum){
+                            canvasBoard[x][y].getGraphicsContext2D()
+                                    .setStroke(Color.DEEPSKYBLUE);
+                            if(currNum == numNumbers){
+                                numNumbers++;
+                                setCurrScore(getCurrScore()+1);
+                                resetBoard();
+                                playGame();
+                            }
+                            else{ currNum++; }
+                        }
+                        else{
+                            canvasBoard[x][y].getGraphicsContext2D()
+                                    .setStroke(Color.RED);
+                            if(numStrikes == 2){ gameRunning = false; }
+                            else{ numStrikes++; }
+                        }
                     }
                 });
             }
@@ -74,10 +90,13 @@ public class ChimpTestGame extends MiniGame{
         labelPane.setLeft(strikeLabel);
 
         BorderPane border = new BorderPane();
+        border.setBackground(new Background(new BackgroundFill(
+                Color.LIGHTBLUE, new CornerRadii(10), new Insets(0))));
         border.setTop(labelPane);
         border.setCenter(canvasBox);
+        border.setAlignment(canvasBox, Pos.CENTER);
 
-        Scene scene = new Scene(border, 1055, 685);
+        Scene scene = new Scene(border, 1045, 685);
         chimpTestStage.setScene(scene);
         chimpTestStage.show();
 
@@ -89,15 +108,34 @@ public class ChimpTestGame extends MiniGame{
             }
         };
         a.start();
-        playGame();
+
+        numNumbers = 4;
+        numStrikes = 0;
+        instructionsPopUp();
     }
 
     @Override
     public void playGame(){
-        instructionsPopUp();
-        numNumbers = 4;
-        numStrikes = 0;
-
+        Thread timer = new Thread(() -> {
+           Object o = new Object();
+           synchronized(o){
+               try{
+                   o.wait(3000);
+                   visible = false;
+                   currNum = 1;
+               } catch(InterruptedException e){
+                   e.printStackTrace();
+               }
+           }
+        });
+        int randI, randJ;
+        visible = true;
+        for(int i = 1; i <= numNumbers; i++){
+            randI = (int)(Math.random()*6);
+            randJ = (int)(Math.random()*10);
+            gameBoard[randI][randJ] = i;
+        }
+        timer.start();
     }
 
     private void drawCanvases(){
@@ -109,9 +147,10 @@ public class ChimpTestGame extends MiniGame{
                 gc.setFill(Color.WHITE);
                 gc.fillRect(0, 0, 100, 100);
                 gc.strokeRect(0, 0, 100, 100);
-                if(visible){
-                    gc.setFont(new Font(50));
-                    gc.strokeText("" + gameBoard[i][j], 30, 30);
+                if(visible && gameBoard[i][j] != 0){
+                    gc.setFont(new Font(30));
+                    gc.setLineWidth(2);
+                    gc.strokeText("" + gameBoard[i][j], 40, 60);
                 }
             }
         }
@@ -122,25 +161,42 @@ public class ChimpTestGame extends MiniGame{
         strikeLabel.setText("Strikes: " + numStrikes);
     }
 
+    private void resetBoard(){
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j < 10; j++){
+                gameBoard[i][j] = 0;
+                canvasBoard[i][j].getGraphicsContext2D().setStroke(Color.BLACK);
+            }
+        }
+    }
+
     private void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label("The screen will show the positions "+
-                "of the numbers, then they will disappear after a few seconds."+
-                " When this happens, press the squares with numbers in their "+
-                "numerical order. If you miss one, you will get a strike. If"+
-                "you get three strikes the game will end. Good luck!");
+                "of the\n numbers, then they will disappear after a\n few seconds."+
+                " When this happens, press the\n squares with numbers in their "+
+                "numerical\n order. If you miss one, you will get a strike.\n If"+
+                " you get three strikes the game will end.\n" +
+                "                          Good luck!");
         Button startButton = new Button("Start Game");
         BorderPane border = new BorderPane();
+        Scene scene;
         instructionsStage.initModality(Modality.APPLICATION_MODAL);
         instructionsStage.initOwner(chimpTestStage);
         instructionsStage.setAlwaysOnTop(true);
         instructionsStage.setTitle("Instructions");
-        instructions.setFont(new Font(30));
+        instructions.setFont(new Font(20));
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
             instructionsStage.close();
             gameRunning = true;
+            playGame();
         });
         border.setCenter(instructions);
         border.setBottom(startButton);
+        border.setAlignment(instructions, Pos.CENTER);
+        border.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(border, 400, 300);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 }
