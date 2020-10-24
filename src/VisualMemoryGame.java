@@ -51,6 +51,10 @@ public class VisualMemoryGame extends MiniGame{
                                     canvasBoard[x][y].getGraphicsContext2D()
                                             .setFill(Color.WHITE);
                                     if(numSelected == numSquares){
+                                        if(numSquares == 20){
+                                            gameRunning = false;
+                                            gameOverPopUp();
+                                        }
                                         numSquares++;
                                         setCurrScore(getCurrScore()+1);
                                         resetBoard();
@@ -127,7 +131,7 @@ public class VisualMemoryGame extends MiniGame{
             Object o = new Object();
             synchronized(o){
                 try{
-                    o.wait(3000);
+                    o.wait(1500);
                     visible = false;
                     resetColors();
                     numSelected = 0;

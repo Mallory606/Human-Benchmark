@@ -44,11 +44,16 @@ public class ChimpTestGame extends MiniGame{
                 canvasBoard[i][j] = new Canvas(100, 100);
                 canvasBoard[i][j].addEventHandler(MouseEvent.MOUSE_CLICKED,
                         event -> {
-                    if(gameRunning && !visible){
+                    if(gameRunning){
+                        if(visible){ visible = false; }
                         if(gameBoard[x][y] == currNum){
                             canvasBoard[x][y].getGraphicsContext2D()
                                     .setStroke(Color.DEEPSKYBLUE);
                             if(currNum == numNumbers){
+                                if(numNumbers == 30){
+                                    gameRunning = false;
+                                    gameOverPopUp();
+                                }
                                 numNumbers++;
                                 setCurrScore(getCurrScore()+1);
                                 resetBoard();
@@ -63,7 +68,10 @@ public class ChimpTestGame extends MiniGame{
                                 gameRunning = false;
                                 gameOverPopUp();
                             }
-                            else{ numStrikes++; }
+                            else{
+                                numStrikes++;
+                                playGame();
+                            }
                         }
                     }
                 });
@@ -116,21 +124,10 @@ public class ChimpTestGame extends MiniGame{
 
     @Override
     public void playGame(){
-        Thread timer = new Thread(() -> {
-           Object o = new Object();
-           synchronized(o){
-               try{
-                   o.wait(3000);
-                   visible = false;
-                   currNum = 1;
-               } catch(InterruptedException e){
-                   e.printStackTrace();
-               }
-           }
-        });
         int randI, randJ;
         boolean numsPlaced = false;
         visible = true;
+        currNum = 1;
         while(!numsPlaced){
             resetBoard();
             numsPlaced = true;
@@ -142,7 +139,6 @@ public class ChimpTestGame extends MiniGame{
                 gameBoard[randI][randJ] = i;
             }
         }
-        timer.start();
     }
 
     private void drawCanvases(){
@@ -181,11 +177,11 @@ public class ChimpTestGame extends MiniGame{
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label("The screen will show the positions "+
-                "of the\n numbers, then they will disappear after a\n few seconds."+
-                " When this happens, press the\n squares with numbers in their "+
-                "numerical\n order. If you miss one, you will get a strike.\n If"+
-                " you get three strikes the game will end.\n" +
-                "                          Good luck!");
+                "of several\n   numbers, which will disappear after you \n   "+
+                "press one. You must press the squares in\n  numerical order. "+
+                " If you miss one, you will \n    get a strike. If"+
+                " you get three strikes the \n                        game "+
+                "will end.\n                           Good luck!");
         Button startButton = new Button("Start Game");
         BorderPane border = new BorderPane();
         Scene scene;
