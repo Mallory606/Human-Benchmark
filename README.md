@@ -28,9 +28,11 @@ To play this game, click on the squares where the numbers
 appear in numerical order. The game will move between 
 rounds automatically when you complete one. The game will
 begin each round by showing the numbers in their squares
-for about 3 seconds. Score increases with every successful
-round completed. Game ends when you click the wrong box 3
-times (get 3 strikes). Strikes carry over between rounds.
+until a square is clicked. Score increases with every 
+successful round completed. Game ends when you click the 
+wrong box 3 times (get 3 strikes). Strikes carry over 
+between rounds. The game will end automatically if you 
+complete a round with 30 numbers.
 
 Known issues: I was having a bug where sometimes one of the
 numbers would not show up on the screen. I believe this 
@@ -39,3 +41,16 @@ positions. If so, this should be fixed and you should not
 see this bug. I left a line of commented 
 debugging code in the function playGame() which prints out
 the locations of all the numbers.
+
+
+
+### Visual Memory Game
+
+This game begins by flashing several white squares on the
+screen for about 1.5 seconds. Once the original visual 
+disappears, press on the same squares that were 
+highlighted. If you press an incorrect square, it will highlight
+in red. You are allowed 3 mistakes in a round before it cuts
+you off and you lose one of your 3 lives. Score increases 
+with every successful round completed. Game ends when 
+you lose 3 lives or complete a round with 20 squares.
