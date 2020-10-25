@@ -3,8 +3,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 public class TypingGame extends MiniGame{
     private VBox text;
     private TextField textField;
+    private BorderPane border;
     private boolean gameRunning;
     private boolean startTimer;
     private boolean timerStarted;
@@ -36,7 +39,7 @@ public class TypingGame extends MiniGame{
         text = new VBox(5);
         textField = new TextField();
 
-        BorderPane border = new BorderPane();
+        border = new BorderPane();
         border.setBackground(new Background(new BackgroundFill(
                 Color.KHAKI, new CornerRadii(10), new Insets(0))));
         border.setTop(title);
@@ -46,7 +49,7 @@ public class TypingGame extends MiniGame{
         border.setBottom(textField);
         BorderPane.setAlignment(textField, Pos.CENTER);
 
-        Scene scene = new Scene(border, 1025, 585);
+        Scene scene = new Scene(border, 685, 585);
         getGameStage().setScene(scene);
         getGameStage().show();
 
@@ -61,10 +64,8 @@ public class TypingGame extends MiniGame{
                     gameOver = checkTyping();
                     if(gameOver){
                         elapsedTime = System.nanoTime() - start;
-                        System.out.println(""+elapsedTime);
                         minutesTime = elapsedTime/(6e+10);
-                        System.out.println(""+minutesTime);
-                        setCurrScore((int)((5*15)/minutesTime));
+                        setCurrScore((int)((15/5)/minutesTime));
                         gameRunning = false;
                         gameOverPopUp();
                     }
@@ -78,13 +79,20 @@ public class TypingGame extends MiniGame{
 
     @Override
     public void playGame(){
-        char[] charText = "This is a test.".toCharArray();
+        char[] charText = "12345678901234567890123456789012345678901234567890".toCharArray();
         HBox line = new HBox();
         Label tempLabel;
+        int numChars = 0;
         gameRunning = true;
         startTimer = false;
         timerStarted = false;
         for(char c : charText){
+            if(numChars == 40){
+                text.getChildren().add(line);
+                line = new HBox();
+                numChars = 0;
+            }
+            numChars++;
             tempLabel = new Label("" + c);
             tempLabel.setFont(new Font(30));
             line.getChildren().add(tempLabel);
@@ -132,6 +140,36 @@ public class TypingGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
-        playGame();
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label(" This game will test how fast you"+
+                " type in\n  words per minute. Use the field at the\n bottom of "+
+                "the window to copy the text\n                      on the screen.\n"+
+                "\n                          Type as fast as you can!");
+        Button startButton = new Button("Start Game");
+        BorderPane borderPane = new BorderPane();
+        Scene scene;
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(getGameStage());
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(20));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            gameRunning = true;
+            playGame();
+        });
+
+        text = new VBox(5);
+        border.setCenter(text);
+        BorderPane.setAlignment(text, Pos.CENTER);
+        textField.setText("");
+
+        borderPane.setCenter(instructions);
+        borderPane.setBottom(startButton);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(borderPane, 400, 200);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 }
