@@ -203,8 +203,8 @@ public class ChimpTestGame extends MiniGame{
 
         border.setCenter(instructions);
         border.setBottom(startButton);
-        border.setAlignment(instructions, Pos.CENTER);
-        border.setAlignment(startButton, Pos.CENTER);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
         scene = new Scene(border, 400, 300);
         instructionsStage.setScene(scene);
         instructionsStage.show();

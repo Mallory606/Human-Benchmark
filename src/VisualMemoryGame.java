@@ -107,7 +107,7 @@ public class VisualMemoryGame extends MiniGame{
                 Color.PINK, new CornerRadii(10), new Insets(0))));
         border.setTop(labelPane);
         border.setCenter(canvasBox);
-        border.setAlignment(canvasBox, Pos.CENTER);
+        BorderPane.setAlignment(canvasBox, Pos.CENTER);
 
         Scene scene = new Scene(border, 525, 585);
         getGameStage().setScene(scene);
@@ -224,8 +224,8 @@ public class VisualMemoryGame extends MiniGame{
 
         border.setCenter(instructions);
         border.setBottom(startButton);
-        border.setAlignment(instructions, Pos.CENTER);
-        border.setAlignment(startButton, Pos.CENTER);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
         scene = new Scene(border, 500, 400);
         instructionsStage.setScene(scene);
         instructionsStage.show();

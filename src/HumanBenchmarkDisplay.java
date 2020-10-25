@@ -51,9 +51,9 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         border.setBackground(new Background(new BackgroundFill(
                 Color.LIGHTGREEN, new CornerRadii(10), new Insets(0))));
         border.setTop(welcomeLabel);
-        border.setAlignment(welcomeLabel, Pos.CENTER);
+        BorderPane.setAlignment(welcomeLabel, Pos.CENTER);
         border.setCenter(mainVBox);
-        border.setAlignment(mainVBox, Pos.CENTER);
+        BorderPane.setAlignment(mainVBox, Pos.CENTER);
 
         Scene scene = new Scene(border, 855, 480);
         primaryStage.setScene(scene);
