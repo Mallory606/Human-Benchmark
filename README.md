@@ -54,3 +54,17 @@ in red. You are allowed 3 mistakes in a round before it cuts
 you off and you lose one of your 3 lives. Score increases 
 with every successful round completed. Game ends when 
 you lose 3 lives or complete a round with 20 squares.
+
+
+
+### Typing Game
+
+This game will randomly choose a passage from 5 possible
+passages and will display it on the screen. Type in the text 
+field on the bottom of the screen and it will compare what 
+you have typed with the given passage. If something does not
+match the given passage, that character on the given passage 
+will change to red. If your input is correct, the character 
+will change to green. Once your input perfectly matches the 
+given passage, the game will end and it will give you your
+score of typing speed in words per minute.
