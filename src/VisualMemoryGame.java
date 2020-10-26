@@ -13,7 +13,37 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * VisualMemoryGame                                                           *
+ * This class runs through the Visual Memory Test from Human Benchmark. Play  *
+ * by memorizing the positions of the highlighted squares and clicking the    *
+ * squares to recreate those positions. Each round allows 3 mistakes before   *
+ * you lose a life.                                                           *
+ *****************************************************************************/
 public class VisualMemoryGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * gameBoard - int[][] that holds ints for each square of the board that  *
+     *             will be displayed on the window. Holds 1 if square is      *
+     *             highlighted and 0 if it is not                             *
+     * canvasBoard - Canvas[][] that holds the visual representation of values*
+     *               in gameBoard                                             *
+     * scoreLabel - Label that displays your current score                    *
+     * livesLabel - Label that displays how many lives you have               *
+     * visible - keeps track of whether the display should show which squares *
+     *           are highlighted                                              *
+     * gameRunning - boolean that keeps track of whether the window should    *
+     *               allow displayed Nodes to change                          *
+     * numSquares - int that holds the number of highlighted squares in this  *
+     *              round                                                     *
+     * numSelected - int that holds the number of correct squares the user has*
+     *               clicked in the current round                             *
+     * numLives - int that holds the number of lives the user has left        *
+     * numStrikes - int that holds the number of incorrect squares the user   *
+     *              has clicked in the current round                          *
+     *************************************************************************/
     private int[][] gameBoard;
     private Canvas[][] canvasBoard;
     private Label scoreLabel;
@@ -25,8 +55,37 @@ public class VisualMemoryGame extends MiniGame{
     private int numLives;
     private int numStrikes;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public VisualMemoryGame(){ super("Visual Memory"); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * x - final version of the int i that is being iterated through for the  *
+     *     purpose of making sure the Canvas eventHandlers know which one to  *
+     *     change                                                             *
+     * y - final version of the int j that is being iterated through for the  *
+     *     purpose of making sure the Canvas eventHandlers know which one to  *
+     *     change                                                             *
+     * canvasBox - VBox that holds the grid of Canvases for the display       *
+     * row - HBox that iterates through every HBox that is given to canvasBox *
+     * title - Label that holds the title of the game                         *
+     * labelPane - BorderPane that holds the Labels displayed at the top of   *
+     *             the window                                                 *
+     * border - BorderPane that organizes the Nodes for the gameplay window   *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -125,6 +184,26 @@ public class VisualMemoryGame extends MiniGame{
         instructionsPopUp();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes visuals and variables for each round and starts the timer  *
+     * Thread                                                                 *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * timer - Thread that waits for 1.5 seconds and then stops the visible   *
+     *         highlighted squares from being visible. Closes on its own once *
+     *         it is done with resetting values for the round                 *
+     * randI - int used for randomly generated value which picks an i from    *
+     *         gameBoard to pick which square will be highlighted             *
+     * randJ - int used for randomly generated value which picks a j from     *
+     *         gameBoard to pick which square will be highlighted             *
+     * numsPlaced - boolean that starts as true but changes to false if the   *
+     *              same square is chosen to be highlighted twice             *
+     *************************************************************************/
     @Override
     public void playGame(){
         Thread timer = new Thread(() -> {
