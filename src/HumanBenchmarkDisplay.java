@@ -12,13 +12,52 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * HumanBenchmarkDisplay                                                      *
+ * Contains main                                                              *
+ * This class initializes the window for the main menu of the application and *
+ * initializes all MiniGames and other necessary processes.                   *
+ * The main menu acts as a portal allowing you to access the games and keeps  *
+ * a high score for each game.                                                *
+ *****************************************************************************/
 public class HumanBenchmarkDisplay extends javafx.application.Application{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * pStage - copy of the primaryStage from function start. Used to pass on *
+     *          to MiniGames                                                  *
+     * games - array that holds each MiniGame in the order they are displayed *
+     *         on the window                                                  *
+     * scoreLabels - array that holds a Label reading the current high score  *
+     *               for each game in the order they are displayed on the     *
+     *               window                                                   *
+     *************************************************************************/
     private Stage pStage;
     private MiniGame[][] games;
     private Label[][] scoreLabels;
 
+    /**************************************************************************
+     * start                                                                  *
+     *                                                                        *
+     * Overridden from Application                                            *
+     * Initializes the main menu window and starts the AnimationTimer         *
+     *                                                                        *
+     * @param primaryStage - Stage for the main menu window                   *
+     * Returns nothing                                                        *
+     * @throws Exception - throws Exception                                   *
+     *                                                                        *
+     * Variables:                                                             *
+     * welcomeLabel - Label that welcomes the user to the Human Benchmark     *
+     * mainVBox - VBox that holds grid of visuals corresponding with MiniGames*
+     * row1HBox - HBox that holds visuals for first row of MiniGames          *
+     * row2HBox - HBox that holds visuals for second row of MiniGames         *
+     * border - BorderPane that organizes the Nodes for the main menu window  *
+     * scene - Scene for the main menu window                                 *
+     * a - AnimationTimer that updates the visuals of the main menu window    *
+     *************************************************************************/
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception{
         pStage = primaryStage;
         primaryStage.setTitle("Human Benchmark");
 
@@ -59,15 +98,40 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        AnimationTimer a = new AnimationTimer() {
+        AnimationTimer a = new AnimationTimer(){
             @Override
-            public void handle(long now) {
+            public void handle(long now){
                 updateScores();
             }
         };
         a.start();
     }
 
+    /**************************************************************************
+     * fillMainHBox                                                           *
+     *                                                                        *
+     * Fills the given HBox with Canvases and draws each game's information   *
+     * based on the games stored in global variable games                     *
+     *                                                                        *
+     * @param hBox - HBox that needs to be filled                             *
+     * @param row - represents which row of the grid we are filling out       *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * anchor - cycles through an AnchorPane for each game represented in the *
+     *          row                                                           *
+     * currCanvas - cycles through a Canvas for each game represented in the  *
+     *              row                                                       *
+     * gc - cycles though the GraphicsContext for each Canvas currCanvas holds*
+     * currLabel - cycles through a Label for each game represented in the row*
+     * currButton - cycles through a Button for each game represented in the  *
+     *              row                                                       *
+     * finalRow - final copy of parameter row to use in eventHandlers         *
+     * leftAnchorDist - array that holds the left anchor inset for each Label *
+     *                  held by currLabel. These correspond with the order of *
+     *                  MiniGames in global variable games                    *
+     * y - final copy of index i to use in eventHandlers                      *
+     *************************************************************************/
     private void fillMainHBox(HBox hBox, int row){
         AnchorPane anchor;
         Canvas currCanvas;
@@ -118,6 +182,14 @@ public class HumanBenchmarkDisplay extends javafx.application.Application{
         }
     }
 
+    /**************************************************************************
+     * updateScores                                                           *
+     *                                                                        *
+     * Updates the values of the Labels in global variable scoreLabels to     *
+     * reflect the most current information                                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void updateScores(){
         for(int i = 0; i < 2; i++){
             for(int j = 0; j < 4; j++){
