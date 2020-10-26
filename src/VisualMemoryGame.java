@@ -83,8 +83,7 @@ public class VisualMemoryGame extends MiniGame{
      *             the window                                                 *
      * border - BorderPane that organizes the Nodes for the gameplay window   *
      * scene - Scene for the gameplay window                                  *
-     * a - AnimationTimer that updates the visuals of the gameplay window and *
-     *    handles game end logic to calculate words per minute                *
+     * a - AnimationTimer that updates the visuals of the gameplay window     *
      *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){

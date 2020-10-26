@@ -13,7 +13,32 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * ChimpTestGame                                                              *
+ * This class runs through the Chimp Test from Human Benchmark. Play by       *
+ * memorizing the positions of the numbered squares and clicking the squares  *
+ * in order to recreate those positions. The round ends if you make a mistake *
+ *****************************************************************************/
 public class ChimpTestGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * gameBoard - int[][] that holds the value stored in each square of the  *
+     *             board that will be displayed on the window                 *
+     * canvasBoard - Canvas[][] that holds the visual representation of values*
+     *               in gameBoard                                             *
+     * scoreLabel - Label that displays your current score                    *
+     * strikeLabel - Label that displays how many strikes you have            *
+     * visible - keeps track of whether the display should show which squares *
+     *           are numbered                                                 *
+     * gameRunning - boolean that keeps track of whether the window should    *
+     *               allow displayed Nodes to change                          *
+     * numNumbers - int that holds the number of numbered squares in this     *
+     *              round                                                     *
+     * numStrikes - int that holds the number of mistakes the user has made   *
+     * currNum - int that holds the next number that the user has to select   *
+     *************************************************************************/
     private int[][] gameBoard;
     private Canvas[][] canvasBoard;
     private Label scoreLabel;
@@ -24,8 +49,36 @@ public class ChimpTestGame extends MiniGame{
     private int numStrikes;
     private int currNum;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public ChimpTestGame(){ super("Chimp Test"); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * x - final version of the int i that is being iterated through for the  *
+     *     purpose of making sure the Canvas eventHandlers know which one to  *
+     *     change                                                             *
+     * y - final version of the int j that is being iterated through for the  *
+     *     purpose of making sure the Canvas eventHandlers know which one to  *
+     *     change                                                             *
+     * canvasBox - VBox that holds the grid of Canvases for the display       *
+     * row - HBox that iterates through every HBox that is given to canvasBox *
+     * title - Label that holds the title of the game                         *
+     * labelPane - BorderPane that holds the Labels displayed at the top of   *
+     *             the window                                                 *
+     * border - BorderPane that organizes the Nodes for the gameplay window   *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window     *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -104,7 +157,7 @@ public class ChimpTestGame extends MiniGame{
                 Color.LIGHTBLUE, new CornerRadii(10), new Insets(0))));
         border.setTop(labelPane);
         border.setCenter(canvasBox);
-        border.setAlignment(canvasBox, Pos.CENTER);
+        BorderPane.setAlignment(canvasBox, Pos.CENTER);
 
         Scene scene = new Scene(border, 1045, 685);
         getGameStage().setScene(scene);
@@ -122,6 +175,22 @@ public class ChimpTestGame extends MiniGame{
         instructionsPopUp();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes visuals and variables for each round                       *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * randI - int used for randomly generated value which picks an i from    *
+     *         gameBoard to pick which square will be highlighted             *
+     * randJ - int used for randomly generated value which picks a j from     *
+     *         gameBoard to pick which square will be highlighted             *
+     * numsPlaced - boolean that starts as true but changes to false if the   *
+     *              same square is chosen to be highlighted twice             *
+     *************************************************************************/
     @Override
     public void playGame(){
         int randI, randJ;
@@ -141,6 +210,16 @@ public class ChimpTestGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * drawCanvases                                                           *
+     *                                                                        *
+     * Draws the squares and numbers on the window                            *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * gc - GraphicsContext for each Canvas in canvasBoard (iterates)         *
+     *************************************************************************/
     private void drawCanvases(){
         GraphicsContext gc;
         for(int i = 0; i < 6; i++){
@@ -159,11 +238,26 @@ public class ChimpTestGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * updateLabels                                                           *
+     *                                                                        *
+     * Updates the text of global variables scoreLabel and strikeLabel to show*
+     * the most current information                                           *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void updateLabels(){
         scoreLabel.setText("Score: " + getCurrScore());
         strikeLabel.setText("Strikes: " + numStrikes);
     }
 
+    /**************************************************************************
+     * resetBoard                                                             *
+     *                                                                        *
+     * Sets the value of every square in gameBoard to default                 *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void resetBoard(){
         for(int i = 0; i < 6; i++){
             for(int j = 0; j < 10; j++){
@@ -173,6 +267,23 @@ public class ChimpTestGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * border - BorderPane for the instructions pop up window                 *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
