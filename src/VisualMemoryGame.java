@@ -236,6 +236,17 @@ public class VisualMemoryGame extends MiniGame{
         timer.start();
     }
 
+    /**************************************************************************
+     * drawCanvases                                                           *
+     *                                                                        *
+     * Draws the squares on the window. Changes color to white for initial    *
+     * showing of the highlighted squares                                     *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * gc - GraphicsContext for each Canvas in canvasBoard (iterates)         *
+     *************************************************************************/
     private void drawCanvases(){
         GraphicsContext gc;
         for(int i = 0; i < 5; i++){
@@ -247,11 +258,26 @@ public class VisualMemoryGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * updateLabels                                                           *
+     *                                                                        *
+     * Updates the text of global variables scoreLabel and livesLabel to show *
+     * the most current information                                           *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void updateLabels(){
         scoreLabel.setText("Score: " + getCurrScore());
         livesLabel.setText("Lives: " + numLives);
     }
 
+    /**************************************************************************
+     * resetBoard                                                             *
+     *                                                                        *
+     * Sets the value of every square in gameBoard and canvasBoard to default *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void resetBoard(){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
@@ -261,6 +287,13 @@ public class VisualMemoryGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * resetColors                                                            *
+     *                                                                        *
+     * Sets the color of every square to the default color                    *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void resetColors(){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
@@ -269,6 +302,23 @@ public class VisualMemoryGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * border - BorderPane for the instructions pop up window                 *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
