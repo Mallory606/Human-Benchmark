@@ -13,16 +13,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.concurrent.TimeUnit;
-
 public class TypingGame extends MiniGame{
     private VBox text;
     private TextField textField;
     private BorderPane border;
     private boolean gameRunning;
-    private boolean startTimer;
     private boolean timerStarted;
     private long start;
+    private int totalChars;
 
     public TypingGame(){ super("Typing"); }
 
@@ -49,7 +47,7 @@ public class TypingGame extends MiniGame{
         border.setBottom(textField);
         BorderPane.setAlignment(textField, Pos.CENTER);
 
-        Scene scene = new Scene(border, 685, 585);
+        Scene scene = new Scene(border, 685, 645);
         getGameStage().setScene(scene);
         getGameStage().show();
 
@@ -65,7 +63,7 @@ public class TypingGame extends MiniGame{
                     if(gameOver){
                         elapsedTime = System.nanoTime() - start;
                         minutesTime = elapsedTime/(6e+10);
-                        setCurrScore((int)((15/5)/minutesTime));
+                        setCurrScore((int)((totalChars/5)/minutesTime));
                         gameRunning = false;
                         gameOverPopUp();
                     }
@@ -79,15 +77,16 @@ public class TypingGame extends MiniGame{
 
     @Override
     public void playGame(){
-        char[] charText = "12345678901234567890123456789012345678901234567890".toCharArray();
+        char[] charText;
         HBox line = new HBox();
         Label tempLabel;
         int numChars = 0;
+        int rand = (int)(Math.random()*5);
         gameRunning = true;
-        startTimer = false;
         timerStarted = false;
+        charText = choosePassage(rand).toCharArray();
         for(char c : charText){
-            if(numChars == 40){
+            if(numChars == 45){
                 text.getChildren().add(line);
                 line = new HBox();
                 numChars = 0;
@@ -143,8 +142,8 @@ public class TypingGame extends MiniGame{
         Stage instructionsStage = new Stage();
         Label instructions = new Label(" This game will test how fast you"+
                 " type in\n  words per minute. Use the field at the\n bottom of "+
-                "the window to copy the text\n                      on the screen.\n"+
-                "\n                          Type as fast as you can!");
+                "the window to copy the text\n                     on the screen.\n"+
+                "              Type as fast as you can!");
         Button startButton = new Button("Start Game");
         BorderPane borderPane = new BorderPane();
         Scene scene;
@@ -171,5 +170,66 @@ public class TypingGame extends MiniGame{
         scene = new Scene(borderPane, 400, 200);
         instructionsStage.setScene(scene);
         instructionsStage.show();
+    }
+
+    /*
+     * Passages taken from Dracula, Frankenstein, The Yellow Wallpaper, Jane
+     * Eyre, The Picture of Dorian Gray
+     */
+    private String choosePassage(int i){
+        if(i == 0){
+            totalChars = 403;
+            return "But my very feelings changed to repulsion and terror "+
+                    "when I saw the whole man slowly emerge from the window"+
+                    " and begin to crawl down the castle wall over that "+
+                    "dreadful abyss, face down with his cloak spreading out a"+
+                    "round him like great wings. At first I could not believe"+
+                    " my eyes. I thought it was some trick of the moonlight, "+
+                    "some weird effect of shadow; but I kept looking, and it "+
+                    "could be no delusion.";
+        }
+        else if(i == 1){
+            totalChars = 415;
+            return "The different accidents of life are not so changeable as "+
+                    "the feelings of human nature. I had worked hard for "+
+                    "nearly two years, for the sole purpose of infusing life "+
+                    "into an inanimate body. For this I had deprived myself "+
+                    "of rest and health. I had desired it with an ardour that"+
+                    " far exceeded moderation; but now that I had finished, "+
+                    "the beauty of the dream vanished, and breathless horror "+
+                    "and disgust filled my heart.";
+        }
+        else if(i == 2){
+            totalChars = 453;
+            return "On a pattern like this, by daylight, there is a lack of "+
+                    "sequence, a defiance of law, that is a constant irritant"+
+                    " to a normal mind. The color is hideous enough, and "+
+                    "unreliable enough, and infuriating enough, but the "+
+                    "pattern is torturing. You think you have mastered it, "+
+                    "but just as you get well under way in following, it "+
+                    "turns a back somersault and there you are. It slaps you "+
+                    "in the face, knocks you down, and tramples upon you. It "+
+                    "is like a bad dream.";
+        }
+        else if(i == 3){
+            totalChars = 373;
+            return "In the deep shade, at the farther end of the room, a "+
+                    "figure ran backwards and forwards. What it was, whether "+
+                    "beast or human being, one could not, at first sight, "+
+                    "tell: it grovelled, seemingly, on all fours; it snatched"+
+                    " and growled like some strange wild animal: but it was "+
+                    "covered with clothing, and a quantity of dark, grizzled "+
+                    "hair, wild as a mane, hid its head and face.";
+        }
+        else{
+            totalChars = 350;
+            return "An exclamation of horror broke from the painter's lips as"+
+                    " he saw in the dim light the hideous face on the canvas "+
+                    "grinning at him. There was something in its expression "+
+                    "that filled him with disgust and loathing. Good heavens!"+
+                    " it was Dorian Gray's own face that he was looking at! "+
+                    "The horror, whatever it was, had not yet entirely "+
+                    "spoiled that marvellous beauty.";
+        }
     }
 }
