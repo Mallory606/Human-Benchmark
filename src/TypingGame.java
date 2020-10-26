@@ -13,7 +13,29 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * TypingGame                                                                 *
+ * This class runs through the Typing Test from Human Benchmark. Play by      *
+ * typing in the text field on the bottom of the window and copying the       *
+ * randomly generated passage.                                                *
+ *****************************************************************************/
 public class TypingGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables                                                       *
+     * text - VBox that holds the Labels that display the given passage       *
+     * textField - TextField for user input. Contents are compared with the   *
+     *             given passage                                              *
+     * border - BorderPane for the gameplay window. This is global so the game*
+     *          can reset on a game over                                      *
+     * gameRunning - boolean that keeps track of whether the window should    *
+     *               allow displayed Nodes to change                          *
+     * timerStarted - boolean that keeps track of whether the initial time    *
+     *                that the user started typing has been recorded          *
+     * start - holds the nanosecond time that the user started typing         *
+     * totalChars - holds the number of characters in the given passage       *
+     *************************************************************************/
     private VBox text;
     private TextField textField;
     private BorderPane border;
@@ -22,8 +44,18 @@ public class TypingGame extends MiniGame{
     private long start;
     private int totalChars;
 
+
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public TypingGame(){ super("Typing"); }
 
+    /**************************************************************************
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage) {
         setGameStage(new Stage());
