@@ -92,7 +92,6 @@ public class TypingGame extends MiniGame{
         getGameStage().setScene(scene);
         getGameStage().show();
 
-
         AnimationTimer a = new AnimationTimer(){
             @Override
             public void handle(long now){
