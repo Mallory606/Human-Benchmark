@@ -23,7 +23,7 @@ import javafx.stage.Stage;
  *****************************************************************************/
 public class TypingGame extends MiniGame{
     /**************************************************************************
-     * Global Variables                                                       *
+     * Global Variables:                                                      *
      * text - VBox that holds the Labels that display the given passage       *
      * textField - TextField for user input. Contents are compared with the   *
      *             given passage                                              *
@@ -51,10 +51,19 @@ public class TypingGame extends MiniGame{
     public TypingGame(){ super("Typing"); }
 
     /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
      * Sets up gameplay window and initializes it and the AnimationTimer      *
      *                                                                        *
      * @param primaryStage - stage for the main menu window                   *
      * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * title: Label that holds the title of the game                          *
+     * scene: Scene for the gameplay window                                   *
+     * a: AnimationTimer that updates the visuals of the gameplay window and  *
+     *    handles game end logic to calculate words per minute                *
      *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage) {
@@ -107,6 +116,25 @@ public class TypingGame extends MiniGame{
         instructionsPopUp();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes visuals and variables for gameplay and randomly chooses a  *
+     * passage to display                                                     *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * charText - char[] that holds each char of the given passage            *
+     * line - HBox that holds Labels for each char in charText. This variable *
+     *        will reset every time the number of Labels within it equals 45  *
+     * tempLabel - temporary variable that holds each Label that is added to  *
+     *             line                                                       *
+     * numChars - int that keeps track of how many chars have been put into   *
+     *            line so far                                                 *
+     * rand - random int that determines which passage is chosen              *
+     *************************************************************************/
     @Override
     public void playGame(){
         char[] charText;
@@ -131,6 +159,24 @@ public class TypingGame extends MiniGame{
         text.getChildren().add(line);
     }
 
+    /**************************************************************************
+     * checkTyping                                                            *
+     *                                                                        *
+     * Compares input from global variable textField with the passage stored  *
+     * in global variable text and changes the color of the Labels in text to *
+     * green if they match or red if they do not                              *
+     *                                                                        *
+     * Takes no arguments                                                     *
+     * Returns true if the input is exactly the same as the given passage     *
+     *                                                                        *
+     * Variables:                                                             *
+     * input - char[] that holds each char of the user input                  *
+     * allCorrect - return value. keeps track of whether there is a mistake   *
+     * i - int representing current index of input                            *
+     * line - HBox that holds Labels for each char in charText                *
+     * tempChar - temporary variable that holds the char displayed in each    *
+     *            Label in line                                               *
+     *************************************************************************/
     private boolean checkTyping(){
         char[] input = textField.getText().toCharArray();
         boolean allCorrect = true;
@@ -159,6 +205,16 @@ public class TypingGame extends MiniGame{
         return allCorrect;
     }
 
+    /**************************************************************************
+     * resetTextColor                                                         *
+     *                                                                        *
+     * Sets the font color of every Label in global variable text to black    *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * line - HBox that holds Labels for each char in charText                *
+     *************************************************************************/
     private void resetTextColor(){
         HBox line;
         for(Node n : text.getChildren()){
@@ -169,6 +225,23 @@ public class TypingGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
@@ -204,10 +277,17 @@ public class TypingGame extends MiniGame{
         instructionsStage.show();
     }
 
-    /*
-     * Passages taken from Dracula, Frankenstein, The Yellow Wallpaper, Jane
-     * Eyre, The Picture of Dorian Gray
-     */
+    /**************************************************************************
+     * choosePassage                                                          *
+     *                                                                        *
+     * Returns a passage based on the given index and sets global variable    *
+     * totalChars based on how long the chosen passage is                     *
+     * Passages taken from Dracula, Frankenstein, The Yellow Wallpaper, Jane  *
+     * Eyre, and The Picture of Dorian Gray (in order)                        *
+     *                                                                        *
+     * @param i - index representing which passage to return                  *
+     * returns String representation of the chosen passage                    *
+     *************************************************************************/
     private String choosePassage(int i){
         if(i == 0){
             totalChars = 403;
