@@ -44,7 +44,6 @@ public class TypingGame extends MiniGame{
     private long start;
     private int totalChars;
 
-
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/

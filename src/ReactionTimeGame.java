@@ -14,14 +14,49 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.TimeUnit;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * ReactionTimeGame                                                           *
+ * This class runs through the Reaction Time Test from Human Benchmark. Play  *
+ * by clicking the window when it turns green.                                *
+ *****************************************************************************/
 public class ReactionTimeGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * centerScreen - Canvas that takes up the entire display                 *
+     * gameRunning - boolean that keeps track of whether the window should    *
+     *               allow displayed Nodes to change                          *
+     * clickReady - boolean that keeps track of whether the display should be *
+     *              red or green                                              *
+     * startTime - long that holds a nanosecond value of when the color       *
+     *             changed                                                    *
+     *************************************************************************/
     private Canvas centerScreen;
     private boolean gameRunning;
     private boolean clickReady;
     private long startTime;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public ReactionTimeGame(){ super("Reaction Time", true); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * border - BorderPane for the gameplay window                            *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -63,11 +98,25 @@ public class ReactionTimeGame extends MiniGame{
         instructionsPopUp();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes visuals and variables for each round and starts the timer  *
+     * Thread                                                                 *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * timer - Thread that waits for a random number of seconds and then      *
+     *         calls for the background to change to green and takes down the *
+     *         time when it switched over                                     *
+     *************************************************************************/
     @Override
     public void playGame(){
         Thread timer = new Thread(() ->{
             Object o = new Object();
-            int rand = (int)(Math.random()*5000)+3000;
+            int rand = (int)(Math.random()*5000)+1500;
             synchronized(o){
                 try{
                     o.wait(rand);
@@ -84,6 +133,16 @@ public class ReactionTimeGame extends MiniGame{
         timer.start();
     }
 
+    /**************************************************************************
+     * drawCanvas                                                             *
+     *                                                                        *
+     * Draws the color and text on the Canvas                                 *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * gc - GraphicsContext for global vairable centerScreen                  *
+     *************************************************************************/
     private void drawCanvas(){
         GraphicsContext gc = centerScreen.getGraphicsContext2D();
         gc.setFont(new Font(80));
@@ -101,6 +160,23 @@ public class ReactionTimeGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
