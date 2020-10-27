@@ -58,7 +58,7 @@ public class VisualMemoryGame extends MiniGame{
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/
-    public VisualMemoryGame(){ super("Visual Memory"); }
+    public VisualMemoryGame(){ super("Visual Memory", false); }
 
     /**************************************************************************
      * initializeWindow                                                       *

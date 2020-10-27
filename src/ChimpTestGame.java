@@ -52,7 +52,7 @@ public class ChimpTestGame extends MiniGame{
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/
-    public ChimpTestGame(){ super("Chimp Test"); }
+    public ChimpTestGame(){ super("Chimp Test", false); }
 
     /**************************************************************************
      * initializeWindow                                                       *

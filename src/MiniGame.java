@@ -13,11 +13,13 @@ public abstract class MiniGame{
     private final String name;
     private int highScore;
     private int currScore;
+    private final boolean inverseScore;
     private Stage gameStage;
     private Button retryButton;
 
-    public MiniGame(String n){
+    public MiniGame(String n, boolean inverse){
         name = n;
+        inverseScore = inverse;
         highScore = 0;
         currScore = 0;
     }
@@ -71,11 +73,16 @@ public abstract class MiniGame{
         highScoreLabel.setFont(new Font(20));
         border.setCenter(finalScore);
         border.setBottom(buttonPanel);
-        border.setAlignment(buttonPanel, Pos.CENTER);
-        if(currScore > highScore){
+        BorderPane.setAlignment(buttonPanel, Pos.CENTER);
+        if(currScore > highScore && !inverseScore){
             highScore = currScore;
             border.setTop(highScoreLabel);
-            border.setAlignment(highScoreLabel, Pos.CENTER);
+            BorderPane.setAlignment(highScoreLabel, Pos.CENTER);
+        }
+        if(currScore<highScore && inverseScore|| inverseScore && highScore==0){
+            highScore = currScore;
+            border.setTop(highScoreLabel);
+            BorderPane.setAlignment(highScoreLabel, Pos.CENTER);
         }
         scene = new Scene(border, 200, 150);
         gameOverStage.setScene(scene);

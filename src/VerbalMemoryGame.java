@@ -1,7 +1,7 @@
 import javafx.stage.Stage;
 
 public class VerbalMemoryGame extends MiniGame{
-    public VerbalMemoryGame(){ super("Verbal Memory"); }
+    public VerbalMemoryGame(){ super("Verbal Memory", false); }
 
     @Override
     public void playGame() {

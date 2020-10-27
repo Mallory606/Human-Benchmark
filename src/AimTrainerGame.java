@@ -1,7 +1,7 @@
 import javafx.stage.Stage;
 
 public class AimTrainerGame extends MiniGame{
-    public AimTrainerGame(){ super("Aim Trainer"); }
+    public AimTrainerGame(){ super("Aim Trainer", false); }
 
     @Override
     public void playGame() {
