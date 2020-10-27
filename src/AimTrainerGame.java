@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -92,8 +93,6 @@ public class AimTrainerGame extends MiniGame{
         gc.fillOval(33, 33, 34, 34);
         gc.setFill(Color.RED);
         gc.fillOval(45, 45, 10, 10);
-        AnchorPane.setTopAnchor(target, 400.0);
-        AnchorPane.setLeftAnchor(target, 700.0);
     }
 
     private void changeAnchors(){
@@ -109,7 +108,30 @@ public class AimTrainerGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label(" This game will test your average\n  "+
+                " reaction time in milliseconds.\n      Click the target 30 times!");
+        Button startButton = new Button("Start Game");
+        BorderPane borderPane = new BorderPane();
+        Scene scene;
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(getGameStage());
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(20));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            playGame();
+        });
+
         targetHits = 0;
-        playGame();
+
+        borderPane.setCenter(instructions);
+        borderPane.setBottom(startButton);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(borderPane, 300, 150);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 }
