@@ -22,6 +22,24 @@ program, just close the window.
 
 
 
+### Reaction Time Game
+
+To play this game, simply click on the screen when it turns 
+from red to green. If you click too early, it will restart
+the game automatically. The score for this game is in 
+milliseconds.
+
+
+
+###Aim Trainer Game
+
+To play this game, click the target 30 times as fast as you
+can. The target will move to a random location on the 
+screen each time it is clicked. The score for this game is
+your average reaction time in milliseconds.
+
+
+
 ### Chimp Test Game
 
 To play this game, click on the squares where the numbers
