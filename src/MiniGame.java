@@ -11,14 +11,16 @@ import javafx.stage.Stage;
 
 public abstract class MiniGame{
     private final String name;
+    private final String scoreUnit;
+    private final boolean inverseScore;
     private int highScore;
     private int currScore;
-    private final boolean inverseScore;
     private Stage gameStage;
     private Button retryButton;
 
-    public MiniGame(String n, boolean inverse){
+    public MiniGame(String n, String unit, boolean inverse){
         name = n;
+        scoreUnit = unit;
         inverseScore = inverse;
         highScore = 0;
         currScore = 0;
@@ -48,7 +50,7 @@ public abstract class MiniGame{
 
     public void gameOverPopUp(){
         Stage gameOverStage = new Stage();
-        Label finalScore = new Label("Final Score: "+currScore);
+        Label finalScore = new Label("Final Score: "+currScore+scoreUnit);
         Label highScoreLabel = new Label("New High Score!");
         HBox buttonPanel = new HBox(10);
         retryButton = new Button("Retry");

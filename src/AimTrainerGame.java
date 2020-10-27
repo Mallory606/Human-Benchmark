@@ -42,7 +42,7 @@ public class AimTrainerGame extends MiniGame{
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/
-    public AimTrainerGame(){ super("Aim Trainer", false); }
+    public AimTrainerGame(){ super("Aim Trainer", " ms", false); }
 
     /**************************************************************************
      * initializeWindow                                                       *

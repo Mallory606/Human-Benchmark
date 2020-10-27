@@ -47,7 +47,7 @@ public class TypingGame extends MiniGame{
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/
-    public TypingGame(){ super("Typing", false); }
+    public TypingGame(){ super("Typing", " wpm", false); }
 
     /**************************************************************************
      * initializeWindow                                                       *

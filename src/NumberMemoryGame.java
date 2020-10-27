@@ -1,7 +1,7 @@
 import javafx.stage.Stage;
 
 public class NumberMemoryGame extends MiniGame{
-    public NumberMemoryGame(){ super("Number Memory", false); }
+    public NumberMemoryGame(){ super("Number Memory", " rounds", false); }
 
     @Override
     public void playGame() {

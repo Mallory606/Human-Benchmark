@@ -1,7 +1,7 @@
 import javafx.stage.Stage;
 
 public class StroopTestGame extends MiniGame{
-    public StroopTestGame(){ super("Stroop Test", false); }
+    public StroopTestGame(){ super("Stroop Test", " rounds", false); }
 
     @Override
     public void playGame() {

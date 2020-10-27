@@ -40,7 +40,7 @@ public class ReactionTimeGame extends MiniGame{
     /**************************************************************************
      * Constructor - Calls super and provides this game's name                *
      *************************************************************************/
-    public ReactionTimeGame(){ super("Reaction Time", true); }
+    public ReactionTimeGame(){ super("Reaction Time", " ms", true); }
 
     /**************************************************************************
      * initializeWindow                                                       *
