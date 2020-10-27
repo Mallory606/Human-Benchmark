@@ -15,14 +15,54 @@ import javafx.stage.Stage;
 
 import java.util.concurrent.TimeUnit;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * AimTrainerGame                                                             *
+ * This class runs through the Aim Trainer Test from Human Benchmark. Play by *
+ * clicking the target on the screen 30 times.                                *
+ *****************************************************************************/
 public class AimTrainerGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * remainingLabel - Label that displays the number of targets you still   *
+     *                  need to click                                         *
+     * target - Canvas displaying the image of the target. Global so the      *
+     *          position can change throughout the game                       *
+     * targetHits - int that holds the number of times the target has been    *
+     *              clicked so far                                            *
+     * startTime - long that holds the nanosecond value of when the game      *
+     *             started                                                    *
+     *************************************************************************/
     private Label remainingLabel;
     private Canvas target;
     private int targetHits;
     private long startTime;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public AimTrainerGame(){ super("Aim Trainer", false); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * title - Label that holds the name of the game                          *
+     * labelBorder - BorderPane that holds the labels displayed at the top of *
+     *               the window                                               *
+     * centerScreen - AnchorPane that holds the target Canvas                 *
+     * border - BorderPane for the gameplay window                            *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -75,12 +115,27 @@ public class AimTrainerGame extends MiniGame{
         instructionsPopUp();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes position of target for each round                          *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     @Override
     public void playGame(){
         startTime = System.nanoTime();
         changeAnchors();
     }
 
+    /**************************************************************************
+     * drawTarget                                                             *
+     *                                                                        *
+     * Draws the target on the Canvas target                                  *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void drawTarget(){
         GraphicsContext gc = target.getGraphicsContext2D();
         gc.setFill(Color.RED);
@@ -95,6 +150,13 @@ public class AimTrainerGame extends MiniGame{
         gc.fillOval(45, 45, 10, 10);
     }
 
+    /**************************************************************************
+     * changeAnchors                                                          *
+     *                                                                        *
+     * Moves the anchors for global Canvas target to a random distance        *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void changeAnchors(){
         double topRand = Math.random()*400;
         double leftRand = Math.random()*700;
@@ -102,10 +164,34 @@ public class AimTrainerGame extends MiniGame{
         AnchorPane.setLeftAnchor(target, leftRand);
     }
 
+    /**************************************************************************
+     * updateRemaining                                                        *
+     *                                                                        *
+     * Updates the global remainingLabel with the most current information    *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void updateRemaining(){
         remainingLabel.setText("Remaining: "+(30-targetHits));
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
