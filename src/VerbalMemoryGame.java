@@ -4,6 +4,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -49,12 +50,38 @@ public class VerbalMemoryGame extends MiniGame{
         BorderPane.setAlignment(scoreLabel, Pos.CENTER);
 
         setDictionary();
-        wordLabel = new Label("Daylight");
+        wordLabel = new Label();
         wordLabel.setTextFill(Color.WHITE);
         wordLabel.setFont(new Font(70));
         Button seenButton = new Button("Seen");
+        seenButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(!seenWords.contains(wordLabel.getText())){
+                lives--;
+                if(lives == 0){ gameOverPopUp(); }
+                else{
+                    seenWords.add(wordLabel.getText());
+                    playGame();
+                }
+            }
+            else{
+                setCurrScore(getCurrScore()+1);
+                playGame();
+            }
+        });
         seenButton.setFont(new Font(30));
         Button newButton = new Button("New");
+        newButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(seenWords.contains(wordLabel.getText())){
+                lives--;
+                if(lives == 0){ gameOverPopUp(); }
+                else{ playGame(); }
+            }
+            else{
+                setCurrScore(getCurrScore()+1);
+                seenWords.add(wordLabel.getText());
+                playGame();
+            }
+        });
         newButton.setFont(new Font(30));
         HBox buttonBox = new HBox(20);
         buttonBox.getChildren().addAll(seenButton, newButton);
@@ -87,7 +114,16 @@ public class VerbalMemoryGame extends MiniGame{
 
     @Override
     public void playGame(){
-
+        int randSeen = (int)(Math.random()*3);
+        int randWord;
+        if(seenWords.size() != 0 && randSeen == 1){
+            randWord = (int)(Math.random()*seenWords.size());
+            wordLabel.setText(seenWords.get(randWord));
+        }
+        else{
+            randWord = (int)(Math.random()*dictionary.size());
+            wordLabel.setText(dictionary.get(randWord));
+        }
     }
 
     /**************************************************************************
@@ -105,11 +141,14 @@ public class VerbalMemoryGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
+        wordLabel.setText("");
         seenWords = new ArrayList<>();
         lives = 3;
+        setCurrScore(0);
+        playGame();
     }
 
-    // Current number of words: 20
+    // Current number of words: 90
     private void setDictionary(){
         dictionary = new ArrayList<>();
         dictionary.add("Prioritize");
@@ -132,5 +171,86 @@ public class VerbalMemoryGame extends MiniGame{
         dictionary.add("Duration");
         dictionary.add("Celebrate");
         dictionary.add("Induce");
+        dictionary.add("Hospital");
+        dictionary.add("Tombstone");
+        dictionary.add("Reflection");
+        dictionary.add("Jewelery");
+        dictionary.add("Discord");
+        dictionary.add("Window");
+        dictionary.add("Canine");
+        dictionary.add("Console");
+        dictionary.add("Vanity");
+        dictionary.add("Escape");
+        dictionary.add("Remember");
+        dictionary.add("Shadow");
+        dictionary.add("Rancor");
+        dictionary.add("Nemesis");
+        dictionary.add("Lullaby");
+        dictionary.add("Oblivious");
+        dictionary.add("Predator");
+        dictionary.add("Agitated");
+        dictionary.add("Warden");
+        dictionary.add("Endurance");
+        dictionary.add("Factory");
+        dictionary.add("Nobody");
+        dictionary.add("Insidious");
+        dictionary.add("Survivor");
+        dictionary.add("Killer");
+        dictionary.add("Warzone");
+        dictionary.add("Pumpkin");
+        dictionary.add("Interruption");
+        dictionary.add("Subscribe");
+        dictionary.add("Packing");
+        dictionary.add("Basement");
+        dictionary.add("Determined");
+        dictionary.add("Marking");
+        dictionary.add("Altruism");
+        dictionary.add("Camping");
+        dictionary.add("Madness");
+        dictionary.add("Goddess");
+        dictionary.add("Silence");
+        dictionary.add("Cutlery");
+        dictionary.add("Continuous");
+        dictionary.add("Splatter");
+        dictionary.add("Simulate");
+        dictionary.add("Experience");
+        dictionary.add("Between");
+        dictionary.add("Chamomile");
+        dictionary.add("Tendency");
+        dictionary.add("Golden");
+        dictionary.add("Diamond");
+        dictionary.add("Platinum");
+        dictionary.add("Magician");
+        dictionary.add("Hermit");
+        dictionary.add("Chariot");
+        dictionary.add("Hierophant");
+        dictionary.add("Emerald");
+        dictionary.add("Worldly");
+        dictionary.add("Company");
+        dictionary.add("Moonlight");
+        dictionary.add("Silver");
+        dictionary.add("Revelation");
+        dictionary.add("Archery");
+        dictionary.add("Internet");
+        dictionary.add("Slasher");
+        dictionary.add("Furtive");
+        dictionary.add("Soaking");
+        dictionary.add("Mystery");
+        dictionary.add("Sacrifice");
+        dictionary.add("Fortune");
+        dictionary.add("Viewer");
+        dictionary.add("Masquerade");
+        dictionary.add("Shipment");
+        dictionary.add("Devour");
+        dictionary.add("Blighted");
+        dictionary.add("Gunslinger");
+        dictionary.add("Pyramid");
+        dictionary.add("Plagued");
+        dictionary.add("Legion");
+        dictionary.add("Buffered");
+        dictionary.add("Compound");
+        dictionary.add("Corruption");
+        dictionary.add("Powerful");
+        dictionary.add("Surprise");
     }
 }
