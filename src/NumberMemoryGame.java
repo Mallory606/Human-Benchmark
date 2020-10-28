@@ -75,10 +75,15 @@ public class NumberMemoryGame extends MiniGame{
             }
             if(allSame){
                 numDigits++;
+                visible = true;
                 roundEnd = false;
+                border.setBottom(null);
                 playGame();
             }
-            else{ gameOverPopUp(); }
+            else{
+                setCurrScore(numDigits);
+                gameOverPopUp();
+            }
         });
 
         border = new BorderPane();
@@ -99,6 +104,7 @@ public class NumberMemoryGame extends MiniGame{
             @Override
             public void handle(long now){
                 drawCanvas();
+                updateLabel();
             }
         };
 
@@ -131,6 +137,8 @@ public class NumberMemoryGame extends MiniGame{
         input = -1;
         timer.start();
     }
+
+    private void updateLabel(){ levelLabel.setText("Level "+numDigits); }
 
     private int getInput(){
         int input = -1;
@@ -169,6 +177,7 @@ public class NumberMemoryGame extends MiniGame{
                     tempInput /= 10;
                 }
             }
+            gc.setFill(Color.BLACK);
             gc.setFont(new Font(30));
             gc.fillText("Number", 243, 30);
             gc.fillText("Your Answer", 215, 130);
@@ -195,12 +204,37 @@ public class NumberMemoryGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label(" Memorize the number shown on the"+
+                " screen\n   and type out the number when the field\n  becomes visible. "+
+                "Press \"Submit\" to check\n                         your answer!");
+        Button startButton = new Button("Start Game");
+        BorderPane borderPane = new BorderPane();
+        Scene scene;
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(getGameStage());
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(20));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            playGame();
+        });
+
         number = 0;
         numDigits = 1;
         input = -1;
         visible = true;
         roundEnd = false;
         setUserPanel = false;
-        playGame();
+        border.setBottom(null);
+
+        borderPane.setCenter(instructions);
+        borderPane.setBottom(startButton);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(borderPane, 400, 175);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 }
