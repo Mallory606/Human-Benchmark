@@ -358,8 +358,9 @@ public class NumberMemoryGame extends MiniGame{
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label(" Memorize the number shown on the"+
-                " screen\n   and type out the number when the field\n  becomes visible. "+
-                "Press \"Submit\" to check\n                         your answer!");
+                " screen\n   and type out the number when the field\n  "+
+                "becomes visible. Press \"Submit\" to check\n                "+
+                "         your answer!");
         Button startButton = new Button("Start Game");
         BorderPane borderPane = new BorderPane();
         Scene scene;
