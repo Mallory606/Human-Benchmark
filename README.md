@@ -3,6 +3,9 @@
 
 Ashley Krattiger
 
+I am not done with this project yet and will be using 3
+late days.
+
 Main for this program is in HumanBenchmarkDisplay. This 
 program takes no arguments from command line. To play the 
 games, simply press the "Play" button located in the same
