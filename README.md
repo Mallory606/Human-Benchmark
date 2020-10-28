@@ -86,3 +86,20 @@ will change to red. If your input is correct, the character
 will change to green. Once your input perfectly matches the 
 given passage, the game will end and it will give you your
 score of typing speed in words per minute.
+
+
+
+### Number Memory Game
+
+To play this game, first memorize the number while it is on
+the screen. After 3 seconds it disappears, and the text field
+will appear, so you can enter in the number as you 
+remember it. Press the "Submit" button to check your 
+answer. At the checking screen the "Next" button will also
+appear. Press this button to either move on the the next 
+round if you are successful or to bring up the Game Over 
+pop up if you are not. Non number input automatically ends 
+the game. Input with less digits than the given number will 
+fill the empty space with zeros on the screen. Input with
+more digits than the given number will display all extra
+digits in red and will be off center on the screen.

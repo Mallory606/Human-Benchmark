@@ -169,11 +169,11 @@ public class NumberMemoryGame extends MiniGame{
             gc.fillText(""+number, numX, 80);
             if(tempInput != -1){
                 numsCorrect = compareNumbers();
-                for(int i = 0; i < numDigits; i++){
+                for(int i = 0; i < numsCorrect.length; i++){
                     if(numsCorrect[i] == 1){ gc.setFill(Color.BLACK); }
                     else{ gc.setFill(Color.RED); }
                     gc.fillText(""+(tempInput%10), numX+
-                            ((numDigits*27)-((i+1)*27)), 180);
+                            ((numsCorrect.length*27)-((i+1)*27)), 180);
                     tempInput /= 10;
                 }
             }
@@ -191,10 +191,12 @@ public class NumberMemoryGame extends MiniGame{
         int tempInput;
         if(input == 0){ loopBound = 1; }
         else{ loopBound = (int)(Math.log10(input)+1); }
+        if(loopBound > numDigits){ numsCorrect = new int[loopBound]; }
         tempNum = number;
         tempInput = input;
         for(int i = 0; i < loopBound; i++){
-            if((tempNum%10) == (tempInput%10)){ numsCorrect[i] = 1; }
+            if(i >= numDigits){ numsCorrect[i] = 0; }
+            else if((tempNum%10) == (tempInput%10)){ numsCorrect[i] = 1; }
             else{ numsCorrect[i] = 0; }
             tempNum /= 10;
             tempInput /= 10;
