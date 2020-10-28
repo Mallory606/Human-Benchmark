@@ -14,7 +14,44 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * NumberMemoryGame                                                           *
+ * This class runs through the Number Memory Test from Human Benchmark. Play  *
+ * by typing the given number in the text field on the bottom of the window   *
+ * once the number disappears. Press "Submit" to check your answer. Pressing  *
+ * the "Next" button from the checking screen will either let you move on to  *
+ * the next round or open up the Game Over pop up.                            *
+ *****************************************************************************/
 public class NumberMemoryGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * levelLabel - Label that displays the level you are currently on        *
+     * centerScreen - Canvas that draws the numbers and information on the    *
+     *                screen                                                  *
+     * textField - TextField that reads user input for repeating the given    *
+     *             number                                                     *
+     * userPanel - HBox that holds the user interface for inputting a number. *
+     *             Global so it can be added and removed from the BorderPane  *
+     *             as needed                                                  *
+     * nextButton - Button that lets user move on from the checking answer    *
+     *              screen. Global so it can be added and removed from the    *
+     *              BorderPane as needed                                      *
+     * border - BorderPane for the game play window. Global so nodes can be   *
+     *          added and removed as needed                                   *
+     * number - int representing the number that is to be memorized and       *
+     *          repeated by the user                                          *
+     * numDigits - int that holds the number of digits in number. Doubles as  *
+     *             the number for the level the player is on                  *
+     * input - int value that was input by the user                           *
+     * visible - boolean that keeps track of whether the given number is shown*
+     *           on the screen                                                *
+     * roundEnd - boolean that keeps track of whether the checking numbers    *
+     *            screen should be on the screen                              *
+     * setUserPanel - boolean that keeps track of whether the userPanel needs *
+     *                to be re-added to the screen                            *
+     *************************************************************************/
     private Label levelLabel;
     private Canvas centerScreen;
     private TextField textField;
@@ -28,8 +65,30 @@ public class NumberMemoryGame extends MiniGame{
     private boolean roundEnd;
     private boolean setUserPanel;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public NumberMemoryGame(){ super("Number Memory", " rounds", false); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * title - Label that holds the title of the game                         *
+     * labelPane - BorderPane that holds the Labels shown on the top of the   *
+     *             screen                                                     *
+     * submit - Button that submits the user input for comparison to the given*
+     *          number                                                        *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -112,6 +171,22 @@ public class NumberMemoryGame extends MiniGame{
         a.start();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes variables for gameplay and starts the timer Thread.        *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * timer - Thread that waits for 3 seconds and then stops the given number*
+     *         from being visible. Closes on its own once it is done with     *
+     *         resetting values for the round                                 *
+     * num - temporary variable that holds the digits of the global variable  *
+     *       number while it is being randomly generated                      *
+     * rand - double that holds a randomly chosen value for the next digit    *
+     *************************************************************************/
     @Override
     public void playGame(){
         Thread timer = new Thread(() -> {
@@ -138,8 +213,29 @@ public class NumberMemoryGame extends MiniGame{
         timer.start();
     }
 
+    /**************************************************************************
+     * updateLabel                                                            *
+     *                                                                        *
+     * Updates the text of global variable levelLabel to show the most current*
+     * information                                                            *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void updateLabel(){ levelLabel.setText("Level "+numDigits); }
 
+    /**************************************************************************
+     * getInput                                                               *
+     *                                                                        *
+     * Parses input from global variable textField and returns the numerical  *
+     * value or ends the game if the input was non-numerical.                 *
+     *                                                                        *
+     * Takes no arguments                                                     *
+     * Returns a parsed int value or -1 if the input was invalid or if there  *
+     * was nothing input                                                      *
+     *                                                                        *
+     * Variable:                                                              *
+     * input - return value. Holds parsed input from the textField            *
+     *************************************************************************/
     private int getInput(){
         int input = -1;
         if(textField.getText().length() != 0){
@@ -149,6 +245,21 @@ public class NumberMemoryGame extends MiniGame{
         return input;
     }
 
+    /**************************************************************************
+     * drawCanvas                                                             *
+     *                                                                        *
+     * Draws the displayed values for each state of the screen                *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * gc - GraphicsContext for global variable centerScreen                  *
+     * numsCorrect - int[] that tells us if each digit of the input matches   *
+     *               the given number                                         *
+     * tempInput - holds input while it is being written digit by digit       *
+     * numX - holds the x position of the given number on the Canvas based on *
+     *        how many digits it has                                          *
+     *************************************************************************/
     private void drawCanvas(){
         GraphicsContext gc = centerScreen.getGraphicsContext2D();
         int[] numsCorrect;
@@ -184,6 +295,28 @@ public class NumberMemoryGame extends MiniGame{
         }
     }
 
+    /**************************************************************************
+     * compareNumbers                                                         *
+     *                                                                        *
+     * Compares the user input number to the given number by comparing each   *
+     * individual digit and marking down which digits are different           *
+     *                                                                        *
+     * Takes no arguments                                                     *
+     * Returns an int[] representing whether each digit in the user input is  *
+     * the same as that of the given number. Reads 0 if they are different and*
+     * 1 if they are the same.                                                *
+     *                                                                        *
+     * Variables:                                                             *
+     * numsCorrect - return value. Holds a 1 or a 0 for each digit in the user*
+     *               input or given number depending on if they have the same *
+     *               number of digits                                         *
+     * loopBound - number of iterations the for loop will make. Equals the    *
+     *             number of digits in the user input                         *
+     * tempNum - holds the value of the given number as it is examined digit  *
+     *           by digit                                                     *
+     * tempInput - holds the value of the user input as it is examined digit  *
+     *             by digit                                                   *
+     *************************************************************************/
     private int[] compareNumbers(){
         int[] numsCorrect = new int[numDigits];
         int loopBound;
@@ -204,6 +337,23 @@ public class NumberMemoryGame extends MiniGame{
         return numsCorrect;
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
