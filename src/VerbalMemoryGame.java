@@ -21,7 +21,7 @@ public class VerbalMemoryGame extends MiniGame{
     private Label wordLabel;
     private int lives;
 
-    public VerbalMemoryGame(){ super("Verbal Memory", " words", false); }
+    public VerbalMemoryGame(){ super("Verbal Memory", " rounds", false); }
 
 
     @Override

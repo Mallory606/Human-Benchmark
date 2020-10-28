@@ -106,3 +106,14 @@ the game. Input with less digits than the given number will
 fill the empty space with zeros on the screen. Input with
 more digits than the given number will display all extra
 digits in red and will be off center on the screen.
+
+
+
+### Verbal Memory Game
+
+To play this game, press one of the two buttons on the
+screen for each word that pops up. Press "New" if you
+haven't seen the word yet in the session or press "Seen"
+if you have seen the word. You have 3 lives and you lose
+one every time you make a mistake. The final score is how
+many rounds you made it through.
