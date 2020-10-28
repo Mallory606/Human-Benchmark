@@ -141,11 +141,38 @@ public class VerbalMemoryGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label("  This game tests how many words you "+
+                "can\nkeep in short term memory at once. For each \n  word,"+
+                " press the button to indicate whether\n     you have seen "+
+                "the word already in this \n  session or not. You have 3 "+
+                "lives and lose 1 \n                 if you make a mistake.\n"+
+                "         Go for as many rounds as you can!");
+        Button startButton = new Button("Start Game");
+        BorderPane borderPane = new BorderPane();
+        Scene scene;
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(getGameStage());
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(20));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            playGame();
+        });
+
         wordLabel.setText("");
         seenWords = new ArrayList<>();
         lives = 3;
         setCurrScore(0);
-        playGame();
+
+        borderPane.setCenter(instructions);
+        borderPane.setBottom(startButton);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(borderPane, 420, 275);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 
     // Current number of words: 90
