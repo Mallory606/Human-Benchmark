@@ -133,11 +133,17 @@ public class NumberMemoryGame extends MiniGame{
                 }
             }
             if(allSame){
-                numDigits++;
-                visible = true;
-                roundEnd = false;
-                border.setBottom(null);
-                playGame();
+                if(numDigits == 20){
+                    setCurrScore(numDigits);
+                    gameOverPopUp();
+                }
+                else{
+                    numDigits++;
+                    visible = true;
+                    roundEnd = false;
+                    border.setBottom(null);
+                    playGame();
+                }
             }
             else{
                 setCurrScore(numDigits);
