@@ -57,6 +57,7 @@ public class VerbalMemoryGame extends MiniGame{
      *                                                                        *
      * Variables:                                                             *
      * title - Label that holds the title of the game                         *
+     * labelPane - BorderPane that holds the Labels at the top of the screen  *
      * seenButton - Button used if a word that has been shown before is shown *
      * newButton - Button used if a word that hasn't been shown before is     *
      *             shown                                                      *

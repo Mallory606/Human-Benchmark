@@ -11,12 +11,56 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * StroopTestGame                                                             *
+ * This class runs through the Stroop Test, a psychological test measuring the*
+ * ability to respond properly when being given conflicting information. The  *
+ * screen will show the name of a color while written in a font of a different*
+ * color. You are to respond by pressing the button labeled with the same     *
+ * color as the font (not the name).                                          *
+ *****************************************************************************/
 public class StroopTestGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * scoreLabel - Label that displays your current score                    *
+     * wordLabel - Label that displays the word on the screen                 *
+     *************************************************************************/
     private Label scoreLabel;
     private Label wordLabel;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public StroopTestGame(){ super("Stroop Test", " rounds", false); }
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * title - Label that holds the title of the game                         *
+     * labelPane - BorderPane that holds the Labels at the top of the screen  *
+     * blackButton - Button for if the color is black                         *
+     * redButton - Button for if the color is red                             *
+     * yellowButton - Button for if the color is yellow                       *
+     * greenButton - Button for if the color is green                         *
+     * blueButton - Button for if the color is blue                           *
+     * purpleButton - Button for if the color is purple                       *
+     * buttonPane - FlowPane that holds the color buttons                     *
+     * centerLayout - VBox that holds the Nodes displayed in the center of the*
+     *                window                                                  *
+     * border - BorderPane for the gameplay window                            *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -127,6 +171,18 @@ public class StroopTestGame extends MiniGame{
         a.start();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Randomly generates a word and color to display                         *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * randWord - randomly generated index that picks a word                  *
+     * randColor - randomly generated index that picks a color                *
+     *************************************************************************/
     @Override
     public void playGame(){
         int randWord = (int)(Math.random()*6);
@@ -155,6 +211,23 @@ public class StroopTestGame extends MiniGame{
      *************************************************************************/
     private void updateLabel(){ scoreLabel.setText("Score: "+getCurrScore()); }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
