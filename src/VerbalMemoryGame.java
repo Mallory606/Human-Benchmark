@@ -187,8 +187,8 @@ public class VerbalMemoryGame extends MiniGame{
     /**************************************************************************
      * updateLabels                                                           *
      *                                                                        *
-     * Updates the text of global variable scoreLabel to show the most current*
-     * information                                                            *
+     * Updates the text of global variables livesLabel and scoreLabel to show *
+     * the most current information                                           *
      *                                                                        *
      * Takes no arguments, returns nothing                                    *
      *************************************************************************/
