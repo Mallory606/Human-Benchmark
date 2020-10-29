@@ -157,6 +157,34 @@ public class StroopTestGame extends MiniGame{
 
     @Override
     public void instructionsPopUp(){
-        playGame();
+        Stage instructionsStage = new Stage();
+        Label instructions = new Label("      This game tests your ability to"+
+                " give\n   appropriate responses when the brain is\n "+
+                "receiving conflicting signals. A word will be\nshown in the "+
+                "center of the screen. Press the \n  button that matches the "+
+                "font color of the \n       word, not the color the word "+
+                "spells.\n              Answer as fast as you can!");
+        Button startButton = new Button("Start Game");
+        BorderPane borderPane = new BorderPane();
+        Scene scene;
+        instructionsStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsStage.initOwner(getGameStage());
+        instructionsStage.setAlwaysOnTop(true);
+        instructionsStage.setTitle("Instructions");
+        instructions.setFont(new Font(20));
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->{
+            instructionsStage.close();
+            playGame();
+        });
+
+        setCurrScore(0);
+
+        borderPane.setCenter(instructions);
+        borderPane.setBottom(startButton);
+        BorderPane.setAlignment(instructions, Pos.CENTER);
+        BorderPane.setAlignment(startButton, Pos.CENTER);
+        scene = new Scene(borderPane, 420, 275);
+        instructionsStage.setScene(scene);
+        instructionsStage.show();
     }
 }
