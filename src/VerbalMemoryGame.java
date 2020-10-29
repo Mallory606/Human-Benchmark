@@ -13,7 +13,26 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
+/******************************************************************************
+ * Ashley Krattiger                                                           *
+ *                                                                            *
+ * VerbalMemoryGame                                                           *
+ * This class runs through the Verbal Memory Test from Human Benchmark. Play  *
+ * by pressing the "New" button if the shown word has not popped up yet in the*
+ * round or "Seen" if you have seen the word already. You have 3 lives and    *
+ * lose one every time you make a mistake.                                    *
+ *****************************************************************************/
 public class VerbalMemoryGame extends MiniGame{
+    /**************************************************************************
+     * Global Variables:                                                      *
+     * dictionary - ArrayList that holds all the words in the word bank       *
+     * seenWords - ArrayList that holds all the words that have been shown    *
+     *             already in this session                                    *
+     * livesLabel - Label that displays how many lives you have left          *
+     * scoreLabel - Label that displays your current score                    *
+     * wordLabel - Label that displays a word from dictionary on the screen   *
+     * lives - int that holds the number of lives you have                    *
+     *************************************************************************/
     private ArrayList<String> dictionary;
     private ArrayList<String> seenWords;
     private Label livesLabel;
@@ -21,9 +40,34 @@ public class VerbalMemoryGame extends MiniGame{
     private Label wordLabel;
     private int lives;
 
+    /**************************************************************************
+     * Constructor - Calls super and provides this game's name                *
+     *************************************************************************/
     public VerbalMemoryGame(){ super("Verbal Memory", " rounds", false); }
 
 
+    /**************************************************************************
+     * initializeWindow                                                       *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Sets up gameplay window and initializes it and the AnimationTimer      *
+     *                                                                        *
+     * @param primaryStage - stage for the main menu window                   *
+     * Returns nothing                                                        *
+     *                                                                        *
+     * Variables:                                                             *
+     * title - Label that holds the title of the game                         *
+     * seenButton - Button used if a word that has been shown before is shown *
+     * newButton - Button used if a word that hasn't been shown before is     *
+     *             shown                                                      *
+     * buttonBox - HBox that holds the Buttons for the window                 *
+     * centerLayout - VBox that holds the Nodes displayed in the center of the*
+     *                window                                                  *
+     * border - BorderPane for the gameplay window                            *
+     * scene - Scene for the gameplay window                                  *
+     * a - AnimationTimer that updates the visuals of the gameplay window and *
+     *    handles game end logic to calculate words per minute                *
+     *************************************************************************/
     @Override
     public void initializeWindow(Stage primaryStage){
         setGameStage(new Stage());
@@ -112,6 +156,20 @@ public class VerbalMemoryGame extends MiniGame{
         a.start();
     }
 
+    /**************************************************************************
+     * playGame                                                               *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Randomly generates a word from global variables dictionary or seenWords*
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * randSeen - randomly generated int that determines which list the word  *
+     *            comes from                                                  *
+     * randWord - randomly generated index that picks a word from either      *
+     *            dictionary or seenWords                                     *
+     *************************************************************************/
     @Override
     public void playGame(){
         int randSeen = (int)(Math.random()*3);
@@ -139,6 +197,23 @@ public class VerbalMemoryGame extends MiniGame{
         scoreLabel.setText("Score: "+getCurrScore());
     }
 
+    /**************************************************************************
+     * instructionsPopUp                                                      *
+     *                                                                        *
+     * Overridden from MiniGame class                                         *
+     * Initializes pop up window to display instructions for the game and     *
+     * handles everything necessary for restarting the game                   *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *                                                                        *
+     * Variables:                                                             *
+     * instructionsStage - Stage for the instructions pop up window           *
+     * instructions - Label that holds the instructions for the game. Has     *
+     *                extra spaces in it for better spacing on the display    *
+     * startButton - Button that starts the game and closes the instructions  *
+     * borderPane - BorderPane for the instructions pop up window             *
+     * scene - Scene for the instructions pop up window                       *
+     *************************************************************************/
     @Override
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
@@ -175,7 +250,13 @@ public class VerbalMemoryGame extends MiniGame{
         instructionsStage.show();
     }
 
-    // Current number of words: 90
+    /**************************************************************************
+     * setDictionary                                                          *
+     *                                                                        *
+     * Adds 100 unique words to global variable dictionary                    *
+     *                                                                        *
+     * Takes no arguments, returns nothing                                    *
+     *************************************************************************/
     private void setDictionary(){
         dictionary = new ArrayList<>();
         dictionary.add("Prioritize");

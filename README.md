@@ -114,6 +114,8 @@ digits in red and will be off center on the screen.
 To play this game, press one of the two buttons on the
 screen for each word that pops up. Press "New" if you
 haven't seen the word yet in the session or press "Seen"
-if you have seen the word. You have 3 lives and you lose
+if you have seen the word. You have 3 lives, and you lose
 one every time you make a mistake. The final score is how
-many rounds you made it through.
+many rounds you made it through. Each time a word is
+generated, there is a 1 in 4 chance that it will pick a word 
+from the list of words that have already been seen.
