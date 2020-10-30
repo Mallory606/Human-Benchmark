@@ -289,8 +289,8 @@ public class ChimpTestGame extends MiniGame{
         Stage instructionsStage = new Stage();
         Label instructions = new Label("The screen will show the positions "+
                 "of several\n   numbers, which will disappear after you \n   "+
-                "press one. You must press the squares in\n  numerical order. "+
-                " If you miss one, you will \n    get a strike. If"+
+                "press one. You must press the squares in\n  numerical order."+
+                "  If you miss one, you will \n    get a strike. If"+
                 " you get three strikes the \n                        game "+
                 "will end.\n                           Good luck!");
         Button startButton = new Button("Start Game");

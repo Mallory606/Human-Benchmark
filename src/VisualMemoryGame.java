@@ -281,7 +281,8 @@ public class VisualMemoryGame extends MiniGame{
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
                 gameBoard[i][j] = 0;
-                canvasBoard[i][j].getGraphicsContext2D().setFill(Color.ROSYBROWN);
+                canvasBoard[i][j].getGraphicsContext2D()
+                        .setFill(Color.ROSYBROWN);
             }
         }
     }
@@ -296,7 +297,8 @@ public class VisualMemoryGame extends MiniGame{
     private void resetColors(){
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
-                canvasBoard[i][j].getGraphicsContext2D().setFill(Color.ROSYBROWN);
+                canvasBoard[i][j].getGraphicsContext2D()
+                        .setFill(Color.ROSYBROWN);
             }
         }
     }

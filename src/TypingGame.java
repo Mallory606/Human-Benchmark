@@ -244,9 +244,9 @@ public class TypingGame extends MiniGame{
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label(" This game will test how fast you"+
-                " type in\n  words per minute. Use the field at the\n bottom of "+
-                "the window to copy the text\n                     on the screen.\n"+
-                "              Type as fast as you can!");
+                " type in\n  words per minute. Use the field at the\n bottom "+
+                "of the window to copy the text\n                     on the "+
+                "screen.\n              Type as fast as you can!");
         Button startButton = new Button("Start Game");
         BorderPane borderPane = new BorderPane();
         Scene scene;

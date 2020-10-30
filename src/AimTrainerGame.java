@@ -87,7 +87,7 @@ public class AimTrainerGame extends MiniGame{
             targetHits++;
             if(targetHits == 30){
                 long nanoElapsed = System.nanoTime()-startTime;
-                long millisElapsed = TimeUnit.NANOSECONDS.toMillis(nanoElapsed);
+                long millisElapsed =TimeUnit.NANOSECONDS.toMillis(nanoElapsed);
                 setCurrScore((int)(millisElapsed/30));
                 gameOverPopUp();
             }
@@ -196,7 +196,8 @@ public class AimTrainerGame extends MiniGame{
     public void instructionsPopUp(){
         Stage instructionsStage = new Stage();
         Label instructions = new Label(" This game will test your average\n  "+
-                " reaction time in milliseconds.\n      Click the target 30 times!");
+                " reaction time in milliseconds.\n      Click the target 30 "+
+                "times!");
         Button startButton = new Button("Start Game");
         BorderPane borderPane = new BorderPane();
         Scene scene;
