@@ -3,9 +3,6 @@
 
 Ashley Krattiger
 
-I am not done with this project yet and will be using 3
-late days.
-
 Main for this program is in HumanBenchmarkDisplay. This 
 program takes no arguments from command line. To play the 
 games, simply press the "Play" button located in the same
@@ -34,7 +31,7 @@ milliseconds.
 
 
 
-###Aim Trainer Game
+### Aim Trainer Game
 
 To play this game, click the target 30 times as fast as you
 can. The target will move to a random location on the 
@@ -119,3 +116,19 @@ one every time you make a mistake. The final score is how
 many rounds you made it through. Each time a word is
 generated, there is a 1 in 4 chance that it will pick a word 
 from the list of words that have already been seen.
+
+
+
+### Stroop Test Game
+
+This test is based on the Stroop Phenomenon with which it 
+is difficult to answer a question about a visual when a 
+different word is being displayed because the brain 
+processes reading words at a different speed than it 
+processes other visual information. This game functions by
+displaying a written color with a font that is a different
+color, and it asks the user to press a button with the 
+color that the font uses, not the one that matches the 
+written word. The game ends when the user presses the
+wrong button, and their score is equal to the number of 
+rounds they successfully completed.
